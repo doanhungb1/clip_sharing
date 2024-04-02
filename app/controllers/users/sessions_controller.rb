@@ -29,7 +29,7 @@ class Users::SessionsController < Devise::SessionsController
     if resource
       # current_user is logged in successfully
       render json: {
-        user: resource
+        user: resource.as_json(except: :jti)
       }, status: :ok
     else
       # current_user is not logged in successfully

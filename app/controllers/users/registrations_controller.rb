@@ -12,7 +12,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     elsif request.method == "POST" && resource.persisted?
       # current_user is created successfully
       render json: {
-        user: resource
+        user: resource.as_json(except: :jti)
       }, status: :ok
     else
       # current_user is not created successfully
