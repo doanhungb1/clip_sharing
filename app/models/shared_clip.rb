@@ -1,0 +1,2 @@
+class SharedClip < ApplicationRecord
+end
