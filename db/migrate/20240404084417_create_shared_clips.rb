@@ -1,7 +1,7 @@
 class CreateSharedClips < ActiveRecord::Migration[7.1]
   def change
     create_table :shared_clips do |t|
-      t.references :users, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
       t.string :title, null: false
       t.string :author_name
       t.string :author_url
