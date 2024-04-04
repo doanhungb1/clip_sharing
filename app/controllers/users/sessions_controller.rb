@@ -34,7 +34,7 @@ class Users::SessionsController < Devise::SessionsController
     else
       # current_user is not logged in successfully
       render json: {
-        messages: ["Invalid Email or Password."],
+        messages: "Invalid Email or Password.",
       }, status: :unprocessable_entity
     end
   end

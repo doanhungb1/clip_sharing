@@ -29,6 +29,8 @@
 
 en:
   hello: "Hello world"
+  errors:
+    not_found: "Record not found"
   devise:
     failure:
       already_authenticated: "You are already signed in."
