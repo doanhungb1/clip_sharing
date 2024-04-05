@@ -121,6 +121,12 @@ GEM
       concurrent-ruby (~> 1.0)
       dry-core (~> 1.0, < 2)
       zeitwerk (~> 2.6)
+    dry-matcher (1.0.0)
+      dry-core (~> 1.0, < 2)
+    dry-monads (1.6.0)
+      concurrent-ruby (~> 1.0)
+      dry-core (~> 1.0, < 2)
+      zeitwerk (~> 2.6)
     dry-rails (0.7.0)
       dry-schema (~> 1.7)
       dry-system (~> 1.0, < 2)
@@ -321,6 +327,8 @@ DEPENDENCIES
   debug
   devise
   devise-jwt
+  dry-matcher
+  dry-monads
   dry-rails
   factory_bot_rails
   faker

@@ -31,6 +31,7 @@ en:
   hello: "Hello world"
   errors:
     not_found: "Record not found"
+    invalid_parameter: "Invalid parameter: %{param}"
   devise:
     failure:
       already_authenticated: "You are already signed in."

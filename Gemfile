@@ -41,6 +41,8 @@ gem "devise-jwt"
 
 # dry
 gem "dry-rails"
+gem "dry-monads"
+gem "dry-matcher"
 
 # HTTP
 gem "rest-client"
