@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   get "users/current_user", to: "users/current_user#index"
   # Defines the root path route ("/")
   # root "posts#index"
+
+  resources :shared_clips, only: [:create]
 end
