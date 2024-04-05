@@ -30,7 +30,7 @@ describe SharedClipsController, type: :controller do
         it 'returns 201' do
           post path, params: params.to_json, headers: auth_header
           expect(response.status).to eq(201)
-          expect(JSON.parse(response.body)["author_name"]).to eq("Author name")
+          expect(JSON.parse(response.body)['data']['author_name']).to eq('Author name')
         end
       end
 
