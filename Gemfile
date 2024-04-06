@@ -59,6 +59,7 @@ group :development, :test do
   gem "faker"
   gem "database_cleaner"
   gem 'shoulda-matchers', '~> 6.0'
+  gem 'pry', '~> 0.14.2'
 end
 
 group :development do
