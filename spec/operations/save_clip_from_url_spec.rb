@@ -58,6 +58,7 @@ RSpec.describe SaveClipFromUrl do
     end
 
     it 'processes saving clip' do
+      expect(ActionCable.server).to receive(:broadcast).with('notifications', any_args)
       expect(subject).to be_success
       expect(subject.value!.class).to eq(SharedClip)
       expect(subject.value!.title).to eq('Something')

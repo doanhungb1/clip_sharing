@@ -10,6 +10,7 @@ class SaveClipFromUrl
     video_id = get_youtube_video_id(clip_url)
     clip_info = yield get_clip_info(video_id)
     saved_shared_clip = yield process_saved_clip(user, clip_info, clip_url)
+    broadcast_notification(saved_shared_clip)
 
     Success(saved_shared_clip)
   end
@@ -47,6 +48,17 @@ class SaveClipFromUrl
     else
       Failure([:failed_to_saved_clip, saved_clip.errors.full_messages.first])
     end
+  end
+
+  def broadcast_notification(saved_shared_clip)
+    ActionCable.server.broadcast(
+      'notifications',
+      {
+        author: saved_shared_clip.user.email,
+        title: saved_shared_clip.title,
+        description: saved_shared_clip.description
+      }
+    )
   end
 
   def get_youtube_video_id(clip_url)

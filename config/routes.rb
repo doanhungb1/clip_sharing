@@ -16,4 +16,7 @@ Rails.application.routes.draw do
   # root "posts#index"
 
   resources :shared_clips, only: [:index, :create]
+
+  mount ActionCable.server, at: '/cable'
+
 end

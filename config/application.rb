@@ -44,5 +44,7 @@ module ClipSharing
     config.session_store :cookie_store, key: '_interslice_session'
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use config.session_store, config.session_options
+
+    config.action_cable.mount_path = '/cable'
   end
 end
