@@ -26,16 +26,14 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def respond_with(resource, _opts = {})
-    if resource
+    if resource.persisted?
       # current_user is logged in successfully
       render json: {
         user: resource.as_json(except: :jti)
       }, status: :ok
     else
       # current_user is not logged in successfully
-      render json: {
-        messages: "Invalid Email or Password.",
-      }, status: :unprocessable_entity
+      render_unauthenticated!
     end
   end
 end

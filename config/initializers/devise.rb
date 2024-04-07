@@ -281,7 +281,7 @@ Devise.setup do |config|
     # manager.intercept_401 = false
     # manager.default_strategies(scope: :user).unshift :some_external_strategy
     manager.scope_defaults :user, store: false
-    manager.failure_app = Users::FailureApp
+    # manager.failure_app = Users::FailureApp
   end
 
   # ==> Mountable engine configurations
