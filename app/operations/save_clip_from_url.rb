@@ -1,45 +1,55 @@
 class SaveClipFromUrl
   include Dry::Monads[:result, :do]
 
-  YOUTUBE_INFO_LINK = 'https://www.youtube.com/oembed?format=json&url='.freeze
+  YOUTUBE_INFO_LINK = 'https://www.googleapis.com/youtube/v3/videos'.freeze
+  YOUTUBE_REGEX = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  YOUTUBE_API_KEY = ENV['YOUTUBE_API_KEY']
 
   def call(user: , clip_url:)
-    clip_info = yield get_clip_info(clip_url)
-    saved_shared_clip = yield process_saved_clip(user, clip_info)
+    yield validate!(clip_url)
+    video_id = get_youtube_video_id(clip_url)
+    clip_info = yield get_clip_info(video_id)
+    saved_shared_clip = yield process_saved_clip(user, clip_info, clip_url)
 
     Success(saved_shared_clip)
   end
 
   private
 
-  def get_clip_info(clip_url)
-    res = RestClient.get(YOUTUBE_INFO_LINK + clip_url)
-    Success(JSON.parse(res.body))
+  def validate!(clip_url)
+    unless clip_url.match?(YOUTUBE_REGEX)
+      return Failure([:invalid_params, I18n.t('errors.invalid_parameter', param: :url)])
+    end
+
+    Success()
+  end
+
+  def get_clip_info(video_id)
+    res = RestClient.get(
+      YOUTUBE_INFO_LINK + "?id=#{video_id}&key=#{YOUTUBE_API_KEY}&fields=items(id,snippet(title),snippet(description))&part=snippet"
+    )
+    Success(JSON.parse(res.body)['items'].first)
   rescue RestClient::BadRequest, RestClient::NotFound => _error
     Failure([:invalid_params, I18n.t('errors.invalid_parameter', param: :url)])
   end
 
-  def process_saved_clip(user, clip_info)
+  def process_saved_clip(user, clip_info, clip_url)
     saved_clip = user.shared_clips.new(
-      title: clip_info['title'],
-      author_name: clip_info['author_name'],
-      author_url: clip_info['author_url'],
-      clip_type: clip_info['type'],
-      height: clip_info['height'],
-      width: clip_info['width'],
-      version: clip_info['version'],
-      provider_name: clip_info['provider_name'],
-      provider_url: clip_info['provider_url'],
-      thumbnail_height: clip_info['thumbnail_height'],
-      thumbnail_width: clip_info['thumbnail_width'],
-      thumbnail_url: clip_info['thumbnail_url'],
-      html: clip_info['html']
+      title: clip_info['snippet']['title'],
+      description: clip_info['snippet']['description'],
+      shared_clip_url: clip_url,
+      youtube_video_id: clip_info['id']
     )
+
 
     if saved_clip.save
       Success(saved_clip)
     else
       Failure([:failed_to_saved_clip, saved_clip.errors.full_messages.first])
     end
+  end
+
+  def get_youtube_video_id(clip_url)
+    Rack::Utils.parse_query(URI(clip_url).query)['v']
   end
 end

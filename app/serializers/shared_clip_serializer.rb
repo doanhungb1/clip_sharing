@@ -1,7 +1,10 @@
 class SharedClipSerializer < ActiveModel::Serializer
   attributes :id,
             :user_id,
+            :youtube_video_id,
+            :shared_clip_url,
             :title,
+            :description,
             :author_name,
             :author_url,
             :clip_type,

@@ -11,11 +11,20 @@ RSpec.describe SaveClipFromUrl do
     )
   end
 
+  context 'with wrong format URL' do
+    let(:clip_url) { 'abc'}
+
+    it 'returns failure' do
+      expect(subject).to be_failure
+      expect(subject.failure[0]).to eq(:invalid_params)
+    end
+  end
+
   context 'with invalid URL' do
     before do
       allow(RestClient).
         to receive(:get).
-        with("https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=FrLcMrl97bE").
+        with(any_args).
         and_raise(RestClient::BadRequest)
     end
 
@@ -28,15 +37,23 @@ RSpec.describe SaveClipFromUrl do
   context 'with valid url' do
     let(:clip_info) do
       {
-        "title": "Something",
-        "author_name": "Hung dep trai"
-    }.to_json
+        items: [
+          {
+            id: 'FrLcMrl97bE',
+            snippet: {
+              title: 'Something',
+              description: 'description'
+            }
+
+          }
+        ]
+      }.to_json
     end
 
     before do
       allow(RestClient).
         to receive(:get).
-        with("https://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=FrLcMrl97bE").
+        with(any_args).
         and_return(double(body: clip_info))
     end
 
@@ -49,9 +66,17 @@ RSpec.describe SaveClipFromUrl do
     context 'when failed to save to db' do
       let(:clip_info) do
         {
-          "title": nil,
-          "author_name": "Hung dep trai"
-        }.to_json
+        items: [
+          {
+            id: 'FrLcMrl97bE',
+            snippet: {
+              title: nil,
+              description: 'description'
+            }
+
+          }
+        ]
+      }.to_json
       end
 
       it 'returns failure' do
