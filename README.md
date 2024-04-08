@@ -72,6 +72,13 @@ or
 docker-compose up -d
 ```
 
+- Run db migration for the first time:
+
+```
+docker-compose run --rm clip_sharing bundle exec rails db:create
+docker-compose run --rm clip_sharing bundle exec rails db:migrate
+```
+
 ## Usage:
 - Login
 ![image](https://github.com/doanhungb1/clip_sharing/assets/23555365/0e945bab-e4ea-4bb2-a13b-6e8f8a9abb09)
