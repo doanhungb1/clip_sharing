@@ -9,7 +9,7 @@ services:
       - bundle_path:/bundle
       - .:/app
     ports:
-      - "3000:3000"
+      - "3001:3000"
     env_file:
       - .env
     links:
