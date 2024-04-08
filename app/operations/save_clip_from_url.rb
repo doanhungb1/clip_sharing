@@ -29,7 +29,10 @@ class SaveClipFromUrl
     res = RestClient.get(
       YOUTUBE_INFO_LINK + "?id=#{video_id}&key=#{YOUTUBE_API_KEY}&fields=items(id,snippet(title),snippet(description))&part=snippet"
     )
-    Success(JSON.parse(res.body)['items'].first)
+
+    data = JSON.parse(res.body)['items'].first
+    return Failure([:invalid_params, I18n.t('errors.invalid_parameter', param: :url)]) unless data
+    Success(data)
   rescue RestClient::BadRequest, RestClient::NotFound => _error
     Failure([:invalid_params, I18n.t('errors.invalid_parameter', param: :url)])
   end

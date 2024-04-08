@@ -74,8 +74,11 @@ docker-compose up -d
 
 ## Usage:
 - Login
+![image](https://github.com/doanhungb1/clip_sharing/assets/23555365/0e945bab-e4ea-4bb2-a13b-6e8f8a9abb09)
 - Share clip
+![image](https://github.com/doanhungb1/clip_sharing/assets/23555365/c991f31e-e067-44de-ac59-cc8932cf824a)
 - Feed
+![image](https://github.com/doanhungb1/clip_sharing/assets/23555365/6498b71d-8b09-4138-9b85-70fb73ef1013)
 - Receive notification
-
+![image](https://github.com/doanhungb1/clip_sharing/assets/23555365/9b9a4723-531c-4de6-98dd-a7026bfbeb8c)
 ## Troubleshooting
