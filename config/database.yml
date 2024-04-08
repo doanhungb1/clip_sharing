@@ -21,6 +21,8 @@ default: &default
 
 development:
   <<: *default
+  host: <%= ENV['DATABASE_HOST'] || "localhost" %>
+  port: <%= ENV.fetch('DATABASE_PORT', 5432) %>
   database: clip_sharing_development
   username: <%= ENV["DATABASE_USER"] %>
   password: <%= ENV["DATABASE_PASSWORD"] %>

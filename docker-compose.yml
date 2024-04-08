@@ -1,0 +1,36 @@
+version: '3'
+services:
+  clip_sharing_rails:
+    container_name: clip_sharing_rails
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - bundle_path:/bundle
+      - .:/app
+    ports:
+      - "3001:3001"
+    environment:
+      RAILS_PORT: 3001
+    env_file:
+      - .env
+    links:
+      - clip_sharing_postgres:clip_sharing_postgres
+    depends_on:
+      - clip_sharing_postgres
+    tty: true
+    stdin_open: true
+
+  clip_sharing_postgres:
+    container_name: clip_sharing_postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  bundle_path:
+  postgres_data:
